@@ -21,23 +21,23 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="httpMethod"></param>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public async Task<TypeResponseObject?> RequestJsonAsync<TypeResponseObject, TypeRequestObject>(
+        public async Task<ResponseType?> RequestJsonAsync<ResponseType, RequestType>(
             HttpMethod httpMethod,
             string requestUri,
-            TypeRequestObject? requestObject = null,
+            RequestType? requestObject = null,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
-            where TypeResponseObject : class, new()
+            where RequestType : class, new()
+            where ResponseType : class, new()
         {
             string requestContent = JsonSerializer.Serialize(requestObject, this._jsonSerializerOptions);
 
@@ -49,7 +49,7 @@ namespace HttpTool
                 requestHeaders: requestHeaders);
 
             string responseContentString = await httpResponseMessage.Content.ReadAsStringAsync();
-            var responseObject = JsonSerializer.Deserialize<TypeResponseObject>(responseContentString, this._jsonSerializerOptions);
+            var responseObject = JsonSerializer.Deserialize<ResponseType>(responseContentString, this._jsonSerializerOptions);
 
             return responseObject;
         }
@@ -58,21 +58,21 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="httpMethod"></param>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public async Task<HttpStatusCode> RequestJsonAsync<TypeRequestObject>(
+        public async Task<HttpStatusCode> RequestJsonAsync<RequestType>(
             HttpMethod httpMethod,
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
+            where RequestType : class, new()
         {
             string requestContentString = JsonSerializer.Serialize(requestObject, this._jsonSerializerOptions);
 
@@ -89,17 +89,17 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
         /// <param name="httpMethod"></param>
         /// <param name="requestUri"></param>
         /// <param name="requestHeaders"></param>
         /// <returns></returns>
-        public async Task<TypeResponseObject?> RequestJsonAsync<TypeResponseObject>(
+        public async Task<ResponseType?> RequestJsonAsync<ResponseType>(
             HttpMethod httpMethod,
             string requestUri,
             Dictionary<string, string>? requestHeaders = null
             )
-            where TypeResponseObject : class, new()
+            where ResponseType : class, new()
         {
             using var httpResponseMessage = await this.RequestAsync(
                 httpMethod: httpMethod,
@@ -107,7 +107,7 @@ namespace HttpTool
                 requestHeaders: requestHeaders);
 
             string responseContentString = await httpResponseMessage.Content.ReadAsStringAsync();
-            TypeResponseObject? responseObject = JsonSerializer.Deserialize<TypeResponseObject>(responseContentString, this._jsonSerializerOptions);
+            ResponseType? responseObject = JsonSerializer.Deserialize<ResponseType>(responseContentString, this._jsonSerializerOptions);
 
             return responseObject;
         }
@@ -116,17 +116,17 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestHeaders"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> GetJsonAsync<TypeResponseObject>(
+        public Task<ResponseType?> GetJsonAsync<ResponseType>(
             string requestUri,
             Dictionary<string, string>? requestHeaders = null
             )
-            where TypeResponseObject : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestJsonAsync<TypeResponseObject>(
+            return this.RequestJsonAsync<ResponseType>(
                 httpMethod: HttpMethod.Get,
                 requestUri: requestUri,
                 requestHeaders: requestHeaders);
@@ -136,21 +136,21 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<HttpStatusCode> GetJsonAsync<TypeRequestObject>(
+        public Task<HttpStatusCode> GetJsonAsync<RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
+            where RequestType : class, new()
         {
-            return this.RequestJsonAsync<TypeRequestObject>(
+            return this.RequestJsonAsync<RequestType>(
                 httpMethod: HttpMethod.Get,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -162,23 +162,23 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncondig"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> GetJsonAsync<TypeResponseObject, TypeRequestObject>(
+        public Task<ResponseType?> GetJsonAsync<ResponseType, RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncondig = null
             )
-            where TypeRequestObject : class, new()
-            where TypeResponseObject : class, new()
+            where RequestType : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestJsonAsync<TypeResponseObject, TypeRequestObject>(
+            return this.RequestJsonAsync<ResponseType, RequestType>(
                 httpMethod: HttpMethod.Get,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -190,21 +190,21 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncondig"></param>
         /// <returns></returns>
-        public Task<HttpStatusCode> PostJsonAsync<TypeRequestObject>(
+        public Task<HttpStatusCode> PostJsonAsync<RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncondig = null
             )
-            where TypeRequestObject : class, new()
+            where RequestType : class, new()
         {
-            return this.RequestJsonAsync<TypeRequestObject>(
+            return this.RequestJsonAsync<RequestType>(
                 httpMethod: HttpMethod.Post,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -216,17 +216,17 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestHeaders"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> PostJsonAsync<TypeResponseObject>(
+        public Task<ResponseType?> PostJsonAsync<ResponseType>(
             string requestUri,
             Dictionary<string, string>? requestHeaders = null
             )
-            where TypeResponseObject : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestJsonAsync<TypeResponseObject>(
+            return this.RequestJsonAsync<ResponseType>(
                 httpMethod: HttpMethod.Post,
                 requestUri: requestUri,
                 requestHeaders: requestHeaders);
@@ -236,23 +236,23 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> PostJsonAsync<TypeResponseObject, TypeRequestObject>(
+        public Task<ResponseType?> PostJsonAsync<ResponseType, RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeResponseObject : class, new()
-            where TypeRequestObject : class, new()
+            where ResponseType : class, new()
+            where RequestType : class, new()
         {
-            return this.RequestJsonAsync<TypeResponseObject, TypeRequestObject>(
+            return this.RequestJsonAsync<ResponseType, RequestType>(
                 httpMethod: HttpMethod.Post,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -264,17 +264,17 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestHeaders"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> PutJsonAsync<TypeResponseObject>(
+        public Task<ResponseType?> PutJsonAsync<ResponseType>(
             string requestUri,
             Dictionary<string, string>? requestHeaders = null
             )
-            where TypeResponseObject : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestJsonAsync<TypeResponseObject>(
+            return this.RequestJsonAsync<ResponseType>(
                 httpMethod: HttpMethod.Put,
                 requestUri: requestUri,
                 requestHeaders: requestHeaders);
@@ -284,21 +284,21 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<HttpStatusCode> PutJsonAsync<TypeRequestObject>(
+        public Task<HttpStatusCode> PutJsonAsync<RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
+            where RequestType : class, new()
         {
-            return this.RequestJsonAsync<TypeRequestObject>(
+            return this.RequestJsonAsync<RequestType>(
                 httpMethod: HttpMethod.Put,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -310,23 +310,23 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> PutJsonAsync<TypeResponseObject, TypeRequestObject>(
+        public Task<ResponseType?> PutJsonAsync<ResponseType, RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
-            where TypeResponseObject : class, new()
+            where RequestType : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestJsonAsync<TypeResponseObject, TypeRequestObject>(
+            return this.RequestJsonAsync<ResponseType, RequestType>(
                 httpMethod: HttpMethod.Put,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -338,17 +338,17 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestHeaders"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> DeleteJsonAsync<TypeResponseObject>(
+        public Task<ResponseType?> DeleteJsonAsync<ResponseType>(
             string requestUri,
             Dictionary<string, string>? requestHeaders = null
             )
-            where TypeResponseObject : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestJsonAsync<TypeResponseObject>(
+            return this.RequestJsonAsync<ResponseType>(
                 httpMethod: HttpMethod.Delete,
                 requestUri: requestUri,
                 requestHeaders: requestHeaders);
@@ -358,21 +358,21 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<HttpStatusCode> DeleteJsonAsync<TypeRequestObject>(
+        public Task<HttpStatusCode> DeleteJsonAsync<RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
+            where RequestType : class, new()
         {
-            return this.RequestJsonAsync<TypeRequestObject>(
+            return this.RequestJsonAsync<RequestType>(
                 httpMethod: HttpMethod.Delete,
                 requestUri: requestUri, requestObject,
                 requestHeaders: requestHeaders,
@@ -383,23 +383,23 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> DeleteJsonAsync<TypeResponseObject, TypeRequestObject>(
+        public Task<ResponseType?> DeleteJsonAsync<ResponseType, RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
-            where TypeResponseObject : class, new()
+            where RequestType : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestJsonAsync<TypeResponseObject, TypeRequestObject>(
+            return this.RequestJsonAsync<ResponseType, RequestType>(
                 httpMethod: HttpMethod.Delete,
                 requestUri: requestUri,
                 requestObject: requestObject,

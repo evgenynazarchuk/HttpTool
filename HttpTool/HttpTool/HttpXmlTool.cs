@@ -66,23 +66,23 @@ namespace HttpTool
         /// <summary>
         /// xml input output 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="httpMethod"></param>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public async Task<TypeResponseObject?> RequestXmlAsync<TypeResponseObject, TypeRequestObject>(
+        public async Task<ResponseType?> RequestXmlAsync<ResponseType, RequestType>(
             HttpMethod httpMethod,
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
-            where TypeResponseObject : class, new()
+            where RequestType : class, new()
+            where ResponseType : class, new()
         {
             // TODO сделать чтение параметра Accept из конфига
             // так как могут быть application/xml или text/xml
@@ -97,7 +97,7 @@ namespace HttpTool
                 requestHeaders: requestHeaders);
 
             string responseContentString = await httpResponseMessage.Content.ReadAsStringAsync();
-            TypeResponseObject? responseObject = responseContentString.FromXmlToObject<TypeResponseObject>();
+            ResponseType? responseObject = responseContentString.FromXmlToObject<ResponseType>();
 
             return responseObject;
         }
@@ -106,21 +106,21 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="httpMethod"></param>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public async Task<HttpStatusCode> RequestXmlAsync<TypeRequestObject>(
+        public async Task<HttpStatusCode> RequestXmlAsync<RequestType>(
             HttpMethod httpMethod,
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
+            where RequestType : class, new()
         {
             string requestXmlContentString = requestObject.FromObjectToXmlString(this._xmlSerializationOptions);
 
@@ -137,16 +137,16 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
         /// <param name="httpMethod"></param>
         /// <param name="requestUri"></param>
         /// <param name="requestHeaders"></param>
         /// <returns></returns>
-        public async Task<TypeResponseObject?> RequestXmlAsync<TypeResponseObject>(
+        public async Task<ResponseType?> RequestXmlAsync<ResponseType>(
             HttpMethod httpMethod,
             string requestUri,
             Dictionary<string, string>? requestHeaders = null)
-            where TypeResponseObject : class, new()
+            where ResponseType : class, new()
         {
             // TODO сделать чтение параметра Accept из конфига
             // так как могут быть application/xml или text/xml
@@ -158,7 +158,7 @@ namespace HttpTool
                 requestHeaders: requestHeaders);
 
             string responseContentString = await httpResponseMessage.Content.ReadAsStringAsync();
-            TypeResponseObject? responseObject = responseContentString.FromXmlToObject<TypeResponseObject>();
+            ResponseType? responseObject = responseContentString.FromXmlToObject<ResponseType>();
 
             return responseObject;
         }
@@ -167,16 +167,16 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestHeaders"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> GetXmlAsync<TypeResponseObject>(
+        public Task<ResponseType?> GetXmlAsync<ResponseType>(
             string requestUri,
             Dictionary<string, string>? requestHeaders = null)
-            where TypeResponseObject : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestXmlAsync<TypeResponseObject>(
+            return this.RequestXmlAsync<ResponseType>(
                 httpMethod: HttpMethod.Get,
                 requestUri: requestUri,
                 requestHeaders: requestHeaders);
@@ -186,21 +186,21 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<HttpStatusCode> GetXmlAsync<TypeRequestObject>(
+        public Task<HttpStatusCode> GetXmlAsync<RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
+            where RequestType : class, new()
         {
-            return this.RequestXmlAsync<TypeRequestObject>(
+            return this.RequestXmlAsync<RequestType>(
                 httpMethod: HttpMethod.Get,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -212,23 +212,23 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> GetXmlAsync<TypeResponseObject, TypeRequestObject>(
+        public Task<ResponseType?> GetXmlAsync<ResponseType, RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
-            where TypeResponseObject : class, new()
+            where RequestType : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestXmlAsync<TypeResponseObject, TypeRequestObject>(
+            return this.RequestXmlAsync<ResponseType, RequestType>(
                 httpMethod: HttpMethod.Get,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -240,21 +240,21 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<HttpStatusCode> PostXmlAsync<TypeRequestObject>(
+        public Task<HttpStatusCode> PostXmlAsync<RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
+            where RequestType : class, new()
         {
-            return this.RequestXmlAsync<TypeRequestObject>(
+            return this.RequestXmlAsync<RequestType>(
                 httpMethod: HttpMethod.Post,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -266,17 +266,17 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestHeaders"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> PostXmlAsync<TypeResponseObject>(
+        public Task<ResponseType?> PostXmlAsync<ResponseType>(
             string requestUri,
             Dictionary<string, string>? requestHeaders = null
             )
-            where TypeResponseObject : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestXmlAsync<TypeResponseObject>(
+            return this.RequestXmlAsync<ResponseType>(
                 httpMethod: HttpMethod.Post,
                 requestUri: requestUri,
                 requestHeaders: requestHeaders);
@@ -286,23 +286,23 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> PostXmlAsync<TypeResponseObject, TypeRequestObject>(
+        public Task<ResponseType?> PostXmlAsync<ResponseType, RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
-            where TypeResponseObject : class, new()
+            where RequestType : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestXmlAsync<TypeResponseObject, TypeRequestObject>(
+            return this.RequestXmlAsync<ResponseType, RequestType>(
                 httpMethod: HttpMethod.Post,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -314,17 +314,17 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestHeaders"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> PutXmlAsync<TypeResponseObject>(
+        public Task<ResponseType?> PutXmlAsync<ResponseType>(
             string requestUri,
             Dictionary<string, string>? requestHeaders = null
             )
-            where TypeResponseObject : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestXmlAsync<TypeResponseObject>(
+            return this.RequestXmlAsync<ResponseType>(
                 httpMethod: HttpMethod.Put,
                 requestUri: requestUri,
                 requestHeaders: requestHeaders);
@@ -334,21 +334,21 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<HttpStatusCode> PutXmlAsync<TypeRequestObject>(
+        public Task<HttpStatusCode> PutXmlAsync<RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
+            where RequestType : class, new()
         {
-            return this.RequestXmlAsync<TypeRequestObject>(
+            return this.RequestXmlAsync<RequestType>(
                 httpMethod: HttpMethod.Put,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -360,23 +360,23 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> PutXmlAsync<TypeResponseObject, TypeRequestObject>(
+        public Task<ResponseType?> PutXmlAsync<ResponseType, RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
-            where TypeResponseObject : class, new()
+            where RequestType : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestXmlAsync<TypeResponseObject, TypeRequestObject>(
+            return this.RequestXmlAsync<ResponseType, RequestType>(
                 httpMethod: HttpMethod.Put,
                 requestUri: requestUri,
                 requestObject: requestObject,
@@ -388,17 +388,17 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestHeaders"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> DeleteXmlAsync<TypeResponseObject>(
+        public Task<ResponseType?> DeleteXmlAsync<ResponseType>(
             string requestUri,
             Dictionary<string, string>? requestHeaders = null
             )
-            where TypeResponseObject : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestXmlAsync<TypeResponseObject>(
+            return this.RequestXmlAsync<ResponseType>(
                 httpMethod: HttpMethod.Delete,
                 requestUri: requestUri,
                 requestHeaders: requestHeaders);
@@ -408,21 +408,21 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<HttpStatusCode> DeleteXmlAsync<TypeRequestObject>(
+        public Task<HttpStatusCode> DeleteXmlAsync<RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
+            where RequestType : class, new()
         {
-            return this.RequestXmlAsync<TypeRequestObject>(
+            return this.RequestXmlAsync<RequestType>(
                 httpMethod: HttpMethod.Delete,
                 requestUri: requestUri, requestObject,
                 requestHeaders: requestHeaders,
@@ -433,23 +433,23 @@ namespace HttpTool
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TypeResponseObject"></typeparam>
-        /// <typeparam name="TypeRequestObject"></typeparam>
+        /// <typeparam name="ResponseType"></typeparam>
+        /// <typeparam name="RequestType"></typeparam>
         /// <param name="requestUri"></param>
         /// <param name="requestObject"></param>
         /// <param name="requestHeaders"></param>
         /// <param name="requestContentEncoding"></param>
         /// <returns></returns>
-        public Task<TypeResponseObject?> DeleteXmlAsync<TypeResponseObject, TypeRequestObject>(
+        public Task<ResponseType?> DeleteXmlAsync<ResponseType, RequestType>(
             string requestUri,
-            TypeRequestObject requestObject,
+            RequestType requestObject,
             Dictionary<string, string>? requestHeaders = null,
             Encoding? requestContentEncoding = null
             )
-            where TypeRequestObject : class, new()
-            where TypeResponseObject : class, new()
+            where RequestType : class, new()
+            where ResponseType : class, new()
         {
-            return this.RequestXmlAsync<TypeResponseObject, TypeRequestObject>(
+            return this.RequestXmlAsync<ResponseType, RequestType>(
                 httpMethod: HttpMethod.Delete,
                 requestUri: requestUri,
                 requestObject: requestObject,
