@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace HttpTool
 {
@@ -18,8 +18,8 @@ namespace HttpTool
         /// <param name="httpFileParameter"></param>
         /// <returns></returns>
         public async Task<HttpStatusCode> UploadFileAsync(
-            string requestUri, 
-            string fileName, 
+            string requestUri,
+            string fileName,
             byte[] file,
             Dictionary<string, string>? requestHeaders = null,
             string httpFileParameter = "file")
@@ -48,7 +48,7 @@ namespace HttpTool
         /// <param name="httpFileParameter"></param>
         /// <returns></returns>
         public async Task<HttpStatusCode> UploadFilesAsync(
-            string requestUri, 
+            string requestUri,
             IEnumerable<(string, byte[])> files,
             Dictionary<string, string>? requestHeaders = null,
             string httpFileParameter = "files")
@@ -67,7 +67,7 @@ namespace HttpTool
             }
 
             var response = await this.RequestAsync(
-                httpMethod: HttpMethod.Post, 
+                httpMethod: HttpMethod.Post,
                 requestUri: requestUri,
                 requestHeaders: requestHeaders,
                 requestContent: form);

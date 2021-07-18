@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using HttpTool.Extension;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using HttpTool.Extension;
 
 namespace HttpTool
 {
