@@ -2,7 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+	<PackageId>HttpTool</PackageId>
 	<Nullable>enable</Nullable>
+	<Version>0.0.1</Version>
+	<Authors>Evgeny Nazarchuk</Authors>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
